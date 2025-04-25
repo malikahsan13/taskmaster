@@ -1,6 +1,9 @@
 import express from "express"
 import bcrypt from "bcrypt"
 import { User } from "../models/User"
+import jwt from "jsonwebtoken"
+import dotenv from "dotenv"
+
 
 const router = express.Router()
 
@@ -27,6 +30,30 @@ router.post("/register", async(req, res) => {
     }catch(err){
         console.error(err)
         res.status(500).json({message: "Server error"})
+    }
+})
+
+router.post("/login", async(req, res) => {
+    try{
+        const {email, password} = req.body;
+    
+        const user = await User.findOne({ email })
+        if(!user){
+            return res.status(400).json({message : "Invalid credentials!"})
+        }
+    
+        const isMatch = await bcrypt.compare(password, user.password)
+        if(!isMatch) return res.status(400).json({message: "Invalid credentials!"})
+    
+        const token = jwt.sign(
+            {userId: user._id, email: user.email},
+            process.env.JWT_SECRET,
+            {expiresIn: '1h'}
+        )
+        res.status(200).json({token, message: "Login successful"})
+    }catch(err){
+        console.error(err)
+        res.status(500).json({message:"Server error"})
     }
 })
 
