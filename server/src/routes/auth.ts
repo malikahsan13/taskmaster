@@ -3,6 +3,7 @@ import bcrypt from "bcrypt"
 import { User } from "../models/User"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
+import { auth } from "../middleware/auth"
 
 
 const router = express.Router()
@@ -54,6 +55,16 @@ router.post("/login", async(req, res) => {
     }catch(err){
         console.error(err)
         res.status(500).json({message:"Server error"})
+    }
+})
+
+router.get("/me", auth, async (req, res) => {
+    try{
+        const user = await User.findById((req as any).user.userId).select('-password')
+        res.status(200).json(user)
+    }catch( err){
+        console.error(err)
+        res.status(500).json({message: "Server error"})
     }
 })
 
