@@ -1,13 +1,11 @@
 import express from "express"
-import dotenv from "dotenv"
 import mongoose from "mongoose"
 import authRoutes from "./routes/auth"
-
-dotenv.config();
+import { config } from "./config/config"
 
 const app = express();
-const PORT = process.env.PORT || 5000;
-const URI = process.env.MONGO_URI;
+const PORT = config.port;
+const URI = config.mongodb.uri;
 
 if(!URI){
     throw new Error("MongoDB URI is not correct")
