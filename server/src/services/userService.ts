@@ -1,4 +1,5 @@
-
+import { AppDataSource } from "../database/connection";
+import { User } from "../models/user";
 
 export class UserService {
   private userRepository = AppDataSource.getRepository(User);
