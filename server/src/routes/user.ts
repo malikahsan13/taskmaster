@@ -19,6 +19,9 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-
+router.put("/:id", async (req, res) => {
+    const updated = await userService.update(req.params.id, req.body);
+    res.json(updated);
+  });
 
 export default router;
