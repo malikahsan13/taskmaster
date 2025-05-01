@@ -24,4 +24,9 @@ router.put("/:id", async (req, res) => {
     res.json(updated);
   });
 
+  router.delete("/:id", async (req, res) => {
+    await userService.delete(req.params.id);
+    res.json({ message: "Deleted successfully" });
+  });
+
 export default router;
