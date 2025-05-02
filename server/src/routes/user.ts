@@ -30,12 +30,21 @@ router.put("/:id", async (req, res) => {
   try {
     const updated = await userService.update(req.params.id, req.body);
     if (!updated) return res.status(404).json({ message: "User not found" });
-    res.json(updated);
+    res.status(200).json(updated);
   } catch (error) {
     res.status(400).json({ message: "Failed to update user", error: error.message });
   }
 });
 
-
+// DELETE user
+router.delete("/:id", async (req, res) => {
+  try {
+    const deleted = await userService.delete(req.params.id);
+    if (!deleted) return res.status(404).json({ message: "User not found" });
+    res.json({ message: "Deleted successfully" });
+  } catch (error) {
+    res.status(400).json({ message: "Failed to delete user", error: error.message });
+  }
+});
 
 export default router;
