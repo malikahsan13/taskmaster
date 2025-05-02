@@ -41,7 +41,7 @@ router.delete("/:id", async (req, res) => {
   try {
     const deleted = await userService.delete(req.params.id);
     if (!deleted) return res.status(404).json({ message: "User not found" });
-    res.status(200).json({ message: "Deleted successfully" });
+    res.status(200).json({ message: "User Deleted successfully" });
   } catch (error) {
     res.status(400).json({ message: "Failed to delete user", error: error.message });
   }
