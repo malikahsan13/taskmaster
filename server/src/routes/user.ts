@@ -29,17 +29,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// UPDATE user
-router.put("/:id", async (req, res) => {
-  try {
-    const updated = await userService.update(req.params.id, req.body);
-    if (!updated) return res.status(404).json({ message: "User not found" });
-    res.status(200).json(updated);
-  } catch (error) {
-    res.status(400).json({ message: "Failed to update user", error: error.message });
-  }
-});
-
 // DELETE user
 router.delete("/:id", async (req, res) => {
   try {
@@ -51,9 +40,15 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+//Update user
 router.put("/:id", validateDto(UserUpdateDto), async (req, res) => {
-    const updated = await userService.update(req.params.id, req.body);
-    res.json(updated);
+    try {
+      const updated = await userService.update(req.params.id, req.body);
+      if (!updated) return res.status(404).json({ message: "User not found" });
+      res.status(200).json(updated);
+    } catch (error) {
+      res.status(400).json({ message: "Failed to update user", error: error.message });
+    }
   });
 
 export default router;
