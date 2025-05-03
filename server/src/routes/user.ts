@@ -1,5 +1,9 @@
 import { Router } from "express";
 import { UserService } from "../services/userService";
+import { validateDto } from "../middlewares/validate";
+import { UserUpdateDto } from "../dto/user-update.dto";
+
+
 
 const router = Router();
 const userService = new UserService();
@@ -46,5 +50,10 @@ router.delete("/:id", async (req, res) => {
     res.status(400).json({ message: "Failed to delete user", error: error.message });
   }
 });
+
+router.put("/:id", validateDto(UserUpdateDto), async (req, res) => {
+    const updated = await userService.update(req.params.id, req.body);
+    res.json(updated);
+  });
 
 export default router;
