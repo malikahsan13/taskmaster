@@ -1,9 +1,12 @@
 import express from "express"
 import mongoose from "mongoose"
 import authRoutes from "./routes/auth"
+import userRoutes from "./routes/user"
 import { config } from "./config/config"
+import bodyParser from "body-parser";
 
 const app = express();
+app.use(bodyParser.json());
 const PORT = config.port;
 const URI = config.mongodb.uri;
 
