@@ -30,7 +30,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // DELETE user
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authenticate,, authorizeRoles("admin") async (req, res) => {
   try {
     const deleted = await userService.delete(req.params.id);
     if (!deleted) return res.status(404).json({ message: "User not found" });
