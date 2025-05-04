@@ -20,7 +20,7 @@ export const loginUser = async (email: string, password: string) => {
 
     if(!isMatch) throw new Error("Invalid credentials")
 
-    const token = generateToken({userId: user._id.toString(), email: user.email})
+    const token = generateToken({userId: user._id.toString(), email: user.email, role: user.role})
 
     return token
 }
