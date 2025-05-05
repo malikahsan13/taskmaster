@@ -2,6 +2,7 @@ import { Router } from "express";
 import { UserService } from "../services/userService";
 import { validateDto } from "../middlewares/validate";
 import { UserUpdateDto } from "../dto/user-update.dto";
+import { upload } from "../middlewares/upload";
 
 
 
@@ -50,5 +51,19 @@ router.put("/:id", validateDto(UserUpdateDto), async (req, res) => {
       res.status(400).json({ message: "Failed to update user", error: error.message });
     }
   });
+
+  router.post(
+    "/:id/profile-picture",
+    authenticate,
+    upload.single("avatar"), // Field name is 'avatar'
+    async (req, res) => {
+      if (!req.file) {
+        return res.status(400).json({ message: "No file uploaded" });
+      }
+  
+      // Here, you can also update user's profile with file path
+      res.status(200).json({ message: "Upload successful", file: req.file.filename });
+    }
+  );
 
 export default router;
