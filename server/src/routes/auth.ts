@@ -6,6 +6,7 @@ import { validateRequest } from "../middleware/validate"
 import { RegisterDto, LoginDto } from "../dto/auth.dto"
 import crypto from "crypto";
 import { sendMail } from "../utils/mailer";
+import { User } from "../models/user"
 
 const router = express.Router()
 
