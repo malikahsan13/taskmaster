@@ -33,6 +33,25 @@ router.post("/forgot-password", async (req, res) => {
     res.json({ message: "Reset email sent" });
   });
   
+  router.post("/reset-password/:token", async (req, res) => {
+    const { token } = req.params;
+    const { password } = req.body;
+  
+    const user = await User.findOne({
+      resetToken: token,
+      resetTokenExpiry: { $gt: new Date() },
+    });
+  
+    if (!user) return res.status(400).json({ message: "Token expired or invalid" });
+  
+    user.password = password; // hash before save in real implementation
+    user.resetToken = undefined;
+    user.resetTokenExpiry = undefined;
+  
+    await user.save();
+  
+    res.json({ message: "Password updated successfully" });
+  });
   
 
 export default router;
