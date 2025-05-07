@@ -54,5 +54,17 @@ router.post("/forgot-password", async (req, res) => {
     res.json({ message: "Password updated successfully" });
   });
   
+  router.post("/refresh-token", (req, res) => {
+    const token = req.cookies.refreshToken;
+    if (!token) return res.status(401).json({ message: "No token provided" });
+  
+    try {
+      const payload = jwt.verify(token, process.env.JWT_REFRESH_SECRET!);
+      const accessToken = generateAccessToken({ id: payload.id, email: payload.email });
+      res.json({ accessToken });
+    } catch {
+      res.status(403).json({ message: "Invalid or expired refresh token" });
+    }
+  });
 
 export default router;
