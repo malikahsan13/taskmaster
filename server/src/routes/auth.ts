@@ -67,4 +67,9 @@ router.post("/forgot-password", async (req, res) => {
     }
   });
 
+  router.post("/logout", (req, res) => {
+    res.clearCookie("refreshToken");
+    res.json({ message: "Logged out successfully" });
+  });
+  
 export default router;
