@@ -21,8 +21,16 @@ export const loginUser = async (email: string, password: string) => {
     if(!isMatch) throw new Error("Invalid credentials")
 
     const token = generateToken({userId: user._id.toString(), email: user.email, role: user.role})
-
-    return token
+    const refreshToken = generateRefreshToken({userId: user._id.toString(), email: user.email, role: user.role});
+    
+    res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+    
+      res.json({ token });
 }
 
 export const getUserById = async (userId: string) => {
