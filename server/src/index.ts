@@ -2,6 +2,7 @@ import express from "express"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
 import authRoutes from "./routes/auth"
+import cors from "cors";
 
 dotenv.config();
 
@@ -12,6 +13,12 @@ console.log(URI)
 if(!URI){
     throw new Error("MongoDB URI is not correct")
 }
+
+app.use(cors({
+    origin: "http://localhost:3000", // React dev server
+    credentials: true               // To allow cookies
+  }));
+
 app.use(express.json())
 app.use("/api/auth", authRoutes)
 
