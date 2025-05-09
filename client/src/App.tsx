@@ -1,5 +1,16 @@
-const App = () => {
-  return <h1>Welcome to the Client App</h1>;
-};
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
+  );
+}
 
 export default App;
