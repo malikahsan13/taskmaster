@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import { AuthProvider } from "./auth/AuthContext";
 import PrivateRoute from "./auth/PrivateRoute";
+import RoleRoute from "./auth/RoleRoute";
 
 function App() {
   return (
@@ -15,9 +16,11 @@ function App() {
           <Route
             path="/dashboard"
             element={
-              <PrivateRoute>
+              <RoleRoute role="admin">
                 <Dashboard />
-              </PrivateRoute>
+              </RoleRoute>
+              // <PrivateRoute>
+              // </PrivateRoute>
             }
           />
         </Routes>
