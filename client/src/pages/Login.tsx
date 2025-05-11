@@ -13,6 +13,7 @@ const Login = () => {
     try {
       const res = await api.post("/auth/login", form);
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("role", res.data.newRole);
       alert("Login successful!");
     } catch (err: any) {
       alert(err.response?.data?.message || "Login failed");
