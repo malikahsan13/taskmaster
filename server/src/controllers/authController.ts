@@ -4,8 +4,8 @@ import { sendMail } from "../utils/mailer";
 
 export const register = async (req: Request, res: Response) => {
     try{
-        const {name, email, password} = req.body
-        const user = await registerUser({name, email, password})
+        const {name, email, password, role = 'user'} = req.body
+        const user = await registerUser({name, email, password, role})
         await sendMail(
             email,
             "Welcome to Our App 🎉",
