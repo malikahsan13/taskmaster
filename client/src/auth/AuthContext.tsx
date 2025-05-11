@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 
 interface AuthContextType {
   token: string | null;
+  role: string | null;
   login: (token: string) => void;
   logout: () => void;
 }
