@@ -20,4 +20,12 @@ export class UserService {
   async delete(id: number) {
     return this.userRepository.delete(id);
   }
+
+  async updateRole(userId: string, role: "user" | "admin") {
+    return await User.findByIdAndUpdate(
+      userId,
+      { role },
+      { new: true }
+    ).select("-password");
+  }
 }
