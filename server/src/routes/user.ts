@@ -3,6 +3,7 @@ import { UserService } from "../services/userService";
 import { validateDto } from "../middlewares/validate";
 import { UserUpdateDto } from "../dto/user-update.dto";
 import { upload } from "../middlewares/upload";
+import { authorizeRole } from "../middlewares/authorizeRole";
 
 
 
@@ -10,7 +11,7 @@ const router = Router();
 const userService = new UserService();
 
 // GET all users
-router.get("/", async (req, res) => {
+router.get("/",authorizeRole(["admin"]), async (req, res) => {
   try {
     const users = await userService.getAll();
     res.json(users);
