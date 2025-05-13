@@ -8,6 +8,25 @@ import RoleRoute from "./auth/RoleRoute";
 import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
+
+  useEffect(() => {
+    const tokenExp = localStorage.getItem("token_exp");
+    if (tokenExp) {
+      const timeLeft = parseInt(tokenExp) * 1000 - Date.now();
+      if (timeLeft > 0) {
+        setTimeout(() => {
+          alert("Session expired. Please log in again.");
+          localStorage.clear();
+          navigate("/login");
+        }, timeLeft);
+      } else {
+        localStorage.clear();
+        navigate("/login");
+      }
+    }
+  }, []);
+  
+
   return (
     <AuthProvider>
       <Router>
