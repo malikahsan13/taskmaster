@@ -67,4 +67,24 @@ router.put("/:id", validateDto(UserUpdateDto), async (req, res) => {
     }
   );
 
+
+  // PUT /api/users/:id/role
+    router.put(
+    "/:id/role",
+    authorizeRole(["admin"]),
+    async (req, res) => {
+      const { role } = req.body;
+      if (!["admin", "user"].includes(role)) {
+        return res.status(400).json({ message: "Invalid role" });
+      }
+  
+      try {
+        const updated = await userService.updateRole(req.params.id, role);
+        if (!updated) return res.status(404).json({ message: "User not found" });
+        res.json(updated);
+      } catch (error) {
+        res.status(500).json({ message: "Failed to update role", error: error.message });
+      }
+    }
+  );
 export default router;
