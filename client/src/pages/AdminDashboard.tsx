@@ -58,6 +58,31 @@ const AdminDashboard = () => {
                 <button onClick={() => handleDelete(u._id)}>Delete</button>
                 {/* Later: Add Edit role */}
               </td>
+              <td>
+  <select
+    value={u.role}
+    onChange={async (e) => {
+      const newRole = e.target.value;
+      try {
+        const res = await axios.put(
+          `http://localhost:5000/api/users/${u._id}/role`,
+          { role: newRole },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUsers(users.map(user => user._id === u._id ? res.data : user));
+      } catch (err) {
+        console.error("Failed to update role", err);
+      }
+    }}
+  >
+    <option value="user">User</option>
+    <option value="admin">Admin</option>
+  </select>
+</td>
             </tr>
           ))}
         </tbody>
