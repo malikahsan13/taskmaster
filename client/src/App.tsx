@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -6,6 +6,7 @@ import { AuthProvider } from "./auth/AuthContext";
 import PrivateRoute from "./auth/PrivateRoute";
 import RoleRoute from "./auth/RoleRoute";
 import AdminDashboard from "./pages/AdminDashboard";
+import { useEffect } from "react";
 
 function App() {
 
@@ -17,7 +18,7 @@ function App() {
         setTimeout(() => {
           alert("Session expired. Please log in again.");
           localStorage.clear();
-          navigate("/login");
+          naviate("/login");
         }, timeLeft);
       } else {
         localStorage.clear();
