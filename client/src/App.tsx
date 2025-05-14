@@ -28,6 +28,16 @@ function App() {
   }, []);
   
 
+  const logout = async () => {
+    try {
+      await axios.post("http://localhost:5000/api/auth/logout", {}, { withCredentials: true });
+      localStorage.removeItem("token");
+      // redirect to login or landing page
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
+
   return (
     <AuthProvider>
       <Router>
