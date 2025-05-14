@@ -57,3 +57,15 @@ export const refreshToken = (req: Request, res: Response) => {
       res.sendStatus(403);
     }
   };
+
+  export const logout = (req: Request, res: Response) => {
+    res.clearCookie("refresh_token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/api/auth/refresh",
+    });
+  
+    return res.status(200).json({ message: "Logged out successfully" });
+  };
+  
