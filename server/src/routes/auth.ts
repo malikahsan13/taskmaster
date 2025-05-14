@@ -13,6 +13,9 @@ const router = express.Router()
 router.post("/register", validateRequest(RegisterDto), register)
 router.post("/login", validateRequest(LoginDto), login)
 router.get("/me", auth, getMe)
+router.post("/refresh", refreshToken);
+router.post("/logout", logout);
+
 router.post("/forgot-password", async (req, res) => {
     const { email } = req.body;
   
@@ -71,5 +74,5 @@ router.post("/forgot-password", async (req, res) => {
     res.clearCookie("refreshToken");
     res.json({ message: "Logged out successfully" });
   });
-  
+
 export default router;
