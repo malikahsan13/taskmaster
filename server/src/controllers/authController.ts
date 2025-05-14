@@ -1,6 +1,15 @@
 import { Request, Response } from "express"
 import { registerUser, loginUser, getUserById } from "../services/authService"
 import { sendMail } from "../utils/mailer";
+import jwt from "jsonwebtoken";
+
+const generateAccessToken = (userId: string, role: string) => {
+    return jwt.sign({ id: userId, role }, process.env.JWT_SECRET!, { expiresIn: "15m" });
+  };
+  
+  const generateRefreshToken = (userId: string) => {
+    return jwt.sign({ id: userId }, process.env.JWT_REFRESH_SECRET!, { expiresIn: "7d" });
+  };
 
 export const register = async (req: Request, res: Response) => {
     try{
@@ -35,3 +44,16 @@ export const getMe = async (req: Request, res: Response) => {
         res.status(500).json({message: error.message || "Server error"})
     }
 }
+
+export const refreshToken = (req: Request, res: Response) => {
+    const token = req.cookies.refresh_token;
+    if (!token) return res.sendStatus(401);
+  
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET!) as any;
+      const accessToken = generateAccessToken(decoded.id, decoded.role);
+      res.status(200).json({ accessToken });
+    } catch (err) {
+      res.sendStatus(403);
+    }
+  };
